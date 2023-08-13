@@ -1,0 +1,530 @@
+/* Global styles */
+body, h1, h2, h3, p, ul, li {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+img.site-logo {
+    display: block;
+    margin: 0 auto;
+    width: 150px; /* Adjust the width as needed */
+}
+
+
+
+/* Global font settings */
+body {
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f5f5f545;
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+}
+/* Loading overlay */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black background */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999; /* Ensure it's on top of other content */
+    transition: opacity 0.5s ease; /* Add a transition effect */
+    transition-delay: 0.5s;
+}
+
+/* Loading spinner */
+.loading-spinner {
+    border: 4px solid #f3f3f3; /* Light gray border */
+    border-top: 4px solid #3498db; /* Blue border for the spinner */
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 3s linear infinite; /* Apply rotation animation */
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Apply this class when you want to hide the loading overlay */
+.hide-loading {
+    display: none;
+}
+
+/* Header */
+header.hero {
+    background-image: url('hero-background.jpg');
+    background-size: cover;
+    background-position: center center;
+    color: white;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0; /* Remove padding to prevent horizontal scrollbar */
+    margin: 0; /* Remove margin to prevent horizontal scrollbar */
+}
+
+.hero-content {
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+h1.name {
+    font-size: 36px;
+    margin-bottom: 10px;
+}
+
+p.title {
+    font-size: 18px;
+    color: #ccc;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+}
+
+.hero-content {
+    animation: fadeIn 1s ease-in-out;
+}
+
+/* Social Icons */
+.social-icons {
+    position: absolute; /* Position the icons absolutely within the container */
+    bottom: 20px; /* Distance from the bottom of the container */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Adjust for centering */
+    text-align: center;
+}
+
+.social-icon {
+    display: inline-block;
+    margin: 0 10px;
+    transition: transform 0.3s; /* Add a smooth transition effect */
+}
+
+.social-icon img {
+    width: 32px; /* Set the width of the icons */
+    height: 32px; /* Set the height of the icons */
+}
+
+/* Style for hovering over the icons */
+.social-icon:hover {
+    transform: scale(1.2); /* Enlarge the icon on hover */
+}
+
+/* Navigation bar */
+nav.navbar {
+    background-color: rgba(0, 0, 0, 0.7); /* Transparent background with some opacity */
+    padding: 10px 0;
+    position: fixed; /* Change to fixed position for it to stay on top */
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    transition: background-color 0.3s; /* Smooth transition for background color change */
+}
+
+nav.navbar.sticky {
+    background-color: rgba(0, 0, 0, 0.9); /* Darker background when sticky */
+}
+
+nav.navbar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+nav.navbar ul li {
+    display: inline-block;
+    margin: 0 10px;
+}
+
+nav.navbar ul li a {
+    color: #fff;
+    text-decoration: none;
+    padding: 10px;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+nav.navbar ul li a:hover {
+    color: #888;
+}
+
+/* Main Content */
+main.main-content {
+    padding: 40px 0;
+}
+
+section {
+    margin-bottom: 40px;
+}
+
+section h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #007bff;
+}
+
+section p {
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+/* About Section */
+.about-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    animation: fadeInUp 1s ease-in-out;
+}
+
+.about-box {
+    background-color: rgba(0, 0, 0, 0.7); 
+    border-radius: 10px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+    margin: 10px;
+    padding: 20px;
+    width: 100%;
+    color: white;
+    transition: transform 0.3s ease-in-out;
+}
+
+
+
+
+.profile-picture {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+    margin-right: 20px;
+}
+
+.profile-picture img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.description-box {
+    background-color: rgba(0, 0, 0, 0.7); 
+    padding: 20px;
+    border-radius: 10px;
+    color: white;
+    flex: 1;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+}
+.description-box:hover {
+    transform: translateY(-5px);
+}
+
+/* Animation */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+.description-box h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.description-box p {
+    font-size: 16px;
+}
+
+.col-six {
+    width: 100%;
+    padding: 0 15px;
+    margin-left: 280px;
+    margin-top: 100px;
+    box-sizing: border-box;
+}
+
+.col-six h3 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.col-six p {
+    font-size: 16px;
+}
+
+.info-list {
+    list-style: none;
+    padding: 0;
+}
+
+.info-list li {
+    margin-bottom: 10px;
+}
+
+.info-list strong {
+    display: inline-block;
+    width: 120px; /* Fixed width for labels */
+    font-weight: bold;
+}
+
+/* Add this to your existing CSS styles */
+.section-divider {
+    width: 100%;
+    border: none;
+    border-top: 1px solid #ccc;
+    margin: 40px 0;
+  }
+  
+  /* Additional styling for the section headers */
+  .section h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    margin-left: 15px;
+  }
+  
+  .section p {
+    font-size: 16px;
+  }
+  
+  /* Adjustments for the skills section */
+  .skills-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  
+  .skill-item {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+    margin: 20px;
+    padding: 20px;
+    flex: 1;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  /* Add a responsive layout for the skill items */
+  @media (max-width: 768px) {
+    .skills-container {
+      flex-direction: column;
+    }
+  
+    .skill-item {
+      width: 100%;
+    }
+}
+  
+
+.skill-item:hover {
+    transform: translateY(-5px);
+}
+
+.progress {
+    background-color: #f5f5f5;
+    border-radius: 5px;
+    height: 10px;
+    margin-bottom: 10px;
+    position: relative;
+    width: 100%;
+}
+
+.progress-fill {
+    background: linear-gradient(to right, #3498db 0%, #3498db 100%, #f5f5f5 90%, #f5f5f5 100%);
+    border-radius: 5px;
+    display: block;
+    height: 100%;
+    width: 0;
+    transition: width 0.5s;
+}
+
+.skill-list strong {
+    font-size: 18px;
+    margin: 0;
+}
+
+  /* Animation */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .section {
+    animation: fadeInUp 1s ease-in-out;
+  }
+  
+/* Add this to your existing CSS styles */
+.portfolio-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 40px;
+  }
+  
+  .portfolio-item {
+    width: calc(33.33% - 20px);
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+    margin: 8px;
+    padding: 2px;
+    transition: transform 0.3s ease-in-out;
+    cursor: pointer;
+  }
+  
+  .portfolio-item:hover {
+    transform: translateY(-5px);
+  }
+  
+  .portfolio-item img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+  }
+  
+  .portfolio-item h3 {
+    font-size: 20px;
+    margin-top: 10px;
+  }
+  
+  .portfolio-item p {
+    font-size: 16px;
+  }
+  
+  /* Adjust the styling for the contact form */
+.contact-form {
+    margin-top: 30px;
+    padding: 120px;
+    background-color: #f5f5f5;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  label {
+    display: block;
+    font-weight: bold;
+  }
+  
+  input[type="text"],
+  input[type="email"],
+  textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  textarea {
+    resize: vertical;
+  }
+  
+  button[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+  }
+  
+  button[type="submit"]:hover {
+    background-color: #0056b3;
+  }
+  
+
+  .footer {
+    background-color: #222;
+    color: #fff;
+    padding: 50px 0;
+    text-align: center;
+  }
+  
+  .footer-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    margin-bottom: 30px;
+  }
+  
+  .footer-section {
+    flex: 1;
+    max-width: 300px;
+    padding: 0 20px;
+  }
+  
+  .icon {
+    margin-bottom: 10px;
+  }
+  
+  .icon img {
+    width: 50px; /* Adjust the width to your preference */
+    height: 50px; /* Adjust the height to your preference */
+  }
+  
+  .footer-social {
+    margin-bottom: 20px;
+  }
+  
+  .social-icon {
+    font-size: 24px;
+    color: #fff;
+    margin: 0 10px;
+  }
+  
+  .footer-copyright {
+    font-size: 14px;
+  }
+  
+/* Animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.section {
+    animation: fadeInUp 1s ease-in-out;
+}
