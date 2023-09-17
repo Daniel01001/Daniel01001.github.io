@@ -1,34 +1,38 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const contactForm = document.getElementById("contact-forms");
-    const submitButton = contactForm.querySelector("button[type='submit']");
-    
-    contactForm.addEventListener("submit", function (event) {
+  const contactForm = document.getElementById("contact-form1");
+  const submitButton = contactForm.querySelector("button[type='submit']");
+
+  contactForm.addEventListener("submit", async function (event) {
       event.preventDefault();
-      
+
       // Disable the submit button during submission
       submitButton.disabled = true;
-      
+
       const formData = new FormData(contactForm);
-      const xhr = new XMLHttpRequest();
-      
-      xhr.open("POST", "php/contact.php", true); // Adjust the path to php/contact.php
-      xhr.setRequestHeader("Accept", "application/json");
-      
-      xhr.onreadystatechange = function () {
-        if (xhr.readyState === XMLHttpRequest.DONE) {
-          submitButton.disabled = false; // Re-enable the submit button
-          
-          const response = JSON.parse(xhr.responseText);
-          if (response.success) {
-            alert("Message sent successfully!");
-            contactForm.reset(); // Clear form fields
-          } else {
-            alert("An error occurred. Please try again later.");
+
+      try {
+          const response = await fetch("php/contact.php", {
+              method: "POST",
+              body: formData,
+          });
+
+          if (!response.ok) {
+              throw new Error("Network response was not ok");
           }
-        }
-      };
-      
-      xhr.send(formData);
-    });
+
+          const responseData = await response.json();
+
+          if (responseData.success) {
+              alert("Message sent successfully!");
+              contactForm.reset(); // Clear form fields
+          } else {
+              alert("An error occurred: " + responseData.error);
+          }
+      } catch (error) {
+          alert("An error occurred: " + error.message);
+      } finally {
+          // Re-enable the submit button
+          submitButton.disabled = false;
+      }
   });
-  
+});
