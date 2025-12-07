@@ -231,9 +231,14 @@ section p {
     background-color: rgba(0, 0, 0, 0.7); 
     padding: 20px;
     border-radius: 10px;
-    color: white;
+     color: #00eaff;
+    border: 2px solid rgba(0,255,255,0.4);
+
+    box-shadow:
+        0 0 10px rgba(0,255,255,0.4),
+        0 0 20px rgba(0,255,255,0.2),
+        inset 0 0 10px rgba(0,255,255,0.3);
     flex: 1;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease-in-out;
 }
 .description-box:hover {
@@ -259,12 +264,33 @@ section p {
 .description-box p {
     font-size: 16px;
 }
+/* OPTION E — Neon Tile */
+.col-six,
+.tab-full {
+    background: rgba(0,0,0,0.8);
+    border-radius: 12px;
+    padding: 25px;
+    margin: 20px 0;
+    color: #00eaff;
+    border: 2px solid rgba(0,255,255,0.4);
 
-.col-six {
-    width: 100%;
-    padding: 0 15px;
-    box-sizing: border-box;
+    box-shadow:
+        0 0 10px rgba(0,255,255,0.4),
+        0 0 20px rgba(0,255,255,0.2),
+        inset 0 0 10px rgba(0,255,255,0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+
+.col-six:hover,
+.tab-full:hover {
+    transform: translateY(-6px);
+    box-shadow:
+        0 0 15px rgba(0,255,255,0.6),
+        0 0 35px rgba(0,255,255,0.4),
+        inset 0 0 12px rgba(0,255,255,0.4);
+}
+
+
 
 .col-six h3 {
     font-size: 24px;
@@ -526,3 +552,29 @@ section p {
 .section {
     animation: fadeInUp 1s ease-in-out;
 }
+
+.whatsapp-float {
+    position: fixed;
+    width: 60px;
+    height: 60px;
+    bottom: 25px;
+    right: 25px;
+    background: #25d366;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    z-index: 9999;
+}
+
+.whatsapp-float img {
+    width: 30px;
+    filter: brightness(0) invert(1);
+}
+
+.whatsapp-float:hover {
+    transform: scale(1.1);
+    transition: 0.3s;
+}
+
