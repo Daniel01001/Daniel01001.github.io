@@ -1,375 +1,432 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Mukelwa Hlatshwayo</title>
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap">
-    <link rel="icon" href="images/logo.jpg"> <!-- Add this line for favicon (optional) -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mukelwa Hlatshwayo — Software Engineer</title>
+  <link rel="icon" href="images/logo.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?faamily=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg:#0e0e0e; --bg2:#141414; --bg3:#1a1a1a;
+      --border:rgba(255,255,255,0.07);
+      --gold:#c9a84c; --gold-lt:#e8c97a;
+      --white:#f0ede6; --muted:#7a7a7a;
+      --body:'DM Sans',sans-serif; --disp:'Playfair Display',serif;
+    }
+    html{scroll-behavior:smooth}
+    body{font-family:var(--body);background:var(--bg);color:var(--white);line-height:1.7;overflow-x:hidden}
+
+    /* LOADING */
+    .loading-overlay{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:9999;transition:opacity .6s ease,visibility .6s ease}
+    .loading-overlay.hide-loading{opacity:0;visibility:hidden;pointer-events:none}
+    .loader-ring{width:48px;height:48px;border:2px solid rgba(201,168,76,.2);border-top-color:var(--gold);border-radius:50%;animation:spin 1s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    /* NAV */
+    nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:20px 60px;display:flex;align-items:center;justify-content:space-between;background:rgba(14,14,14,.85);backdrop-filter:blur(18px);border-bottom:1px solid var(--border);transition:padding .3s}
+    nav.scrolled{padding:14px 60px}
+    .nav-logo{font-family:var(--disp);font-size:1.1rem;font-weight:700;color:var(--gold);letter-spacing:.04em;text-decoration:none}
+    .nav-links{display:flex;gap:36px;list-style:none}
+    .nav-links a{color:var(--muted);text-decoration:none;font-size:.8rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;transition:color .25s}
+    .nav-links a:hover{color:var(--white)}
+
+    /* HERO */
+    .hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:120px 60px 80px;text-align:center}
+    .hero::before{content:'';position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");background-size:200px;pointer-events:none;z-index:1}
+    .hero::after{content:'';position:absolute;width:700px;height:700px;background:radial-gradient(circle,rgba(201,168,76,.08) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-55%);pointer-events:none;z-index:1}
+    .hero-inner{position:relative;z-index:2}
+    .hero-eyebrow{display:inline-block;font-size:.7rem;font-weight:500;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);border:1px solid rgba(201,168,76,.35);padding:6px 18px;border-radius:100px;margin-bottom:28px;animation:fadeUp .8s ease both}
+    .hero-name{font-family:var(--disp);font-size:clamp(3rem,8vw,7rem);font-weight:900;line-height:1.0;letter-spacing:-.02em;color:var(--white);animation:fadeUp .9s .15s ease both}
+    .hero-name em{font-style:italic;color:var(--gold)}
+    .hero-subtitle{margin-top:22px;font-size:1rem;font-weight:300;color:var(--muted);letter-spacing:.04em;animation:fadeUp .9s .3s ease both}
+    .hero-cta{margin-top:44px;display:flex;gap:16px;justify-content:center;animation:fadeUp .9s .45s ease both}
+    .btn-primary{background:var(--gold);color:#0e0e0e;padding:13px 32px;border-radius:4px;font-size:.8rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;transition:background .25s,transform .2s}
+    .btn-primary:hover{background:var(--gold-lt);transform:translateY(-2px)}
+    .btn-ghost{border:1px solid rgba(255,255,255,.15);color:var(--white);padding:13px 32px;border-radius:4px;font-size:.8rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;transition:border-color .25s,transform .2s}
+    .btn-ghost:hover{border-color:rgba(255,255,255,.4);transform:translateY(-2px)}
+    .hero-socials{position:absolute;bottom:40px;left:60px;display:flex;flex-direction:column;gap:18px;z-index:2;animation:fadeUp 1s .6s ease both}
+    .hero-socials a{display:flex;align-items:center;justify-content:center;width:36px;height:36px;border:1px solid var(--border);border-radius:50%;transition:border-color .25s,transform .2s}
+    .hero-socials a:hover{border-color:var(--gold);transform:scale(1.12)}
+    .hero-socials img{width:16px;height:16px;filter:brightness(0) invert(.6)}
+    .hero-socials a:hover img{filter:brightness(0) invert(.9)}
+    .hero-scroll{position:absolute;bottom:40px;right:60px;z-index:2;display:flex;align-items:center;gap:10px;color:var(--muted);font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;animation:fadeUp 1s .7s ease both}
+    .scroll-line{width:40px;height:1px;background:var(--muted);position:relative;overflow:hidden}
+    .scroll-line::after{content:'';position:absolute;inset:0;background:var(--gold);transform:translateX(-100%);animation:scrollLine 2s 1s ease-in-out infinite}
+    @keyframes scrollLine{0%{transform:translateX(-100%)}50%{transform:translateX(0)}100%{transform:translateX(100%)}}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+
+    /* SECTIONS */
+    .section{padding:100px 60px;max-width:1200px;margin:0 auto}
+    .section-label{font-size:.7rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+    .section-title{font-family:var(--disp);font-size:clamp(2rem,4vw,3.2rem);font-weight:700;line-height:1.15;color:var(--white);margin-bottom:48px}
+    .divider{border:none;border-top:1px solid var(--border);max-width:1200px;margin:0 auto}
+
+    /* ABOUT */
+    .about-grid{display:grid;grid-template-columns:1fr 1.6fr;gap:60px;align-items:start}
+    .about-photo-wrap{position:relative}
+    .about-photo-wrap::before{content:'';position:absolute;inset:-10px -10px 10px 10px;border:1px solid rgba(201,168,76,.25);border-radius:4px;pointer-events:none}
+    .about-photo-wrap img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:4px;display:block;filter:grayscale(20%) contrast(1.05)}
+    .about-text p{font-size:1.05rem;font-weight:300;color:#b0aca3;line-height:1.9;margin-bottom:20px}
+    .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:36px;border-top:1px solid var(--border)}
+    .info-row{padding:16px 0;border-bottom:1px solid var(--border);display:flex;flex-direction:column;gap:4px}
+    .info-row strong{font-size:.7rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
+    .info-row span{font-size:.95rem;color:var(--white)}
+
+    /* EXPERIENCE */
+    .exp-bg{background:var(--bg2)}
+    .exp-item{display:grid;grid-template-columns:200px 1fr;gap:40px;padding:40px 0;border-bottom:1px solid var(--border);align-items:start}
+    .exp-item:first-of-type{border-top:1px solid var(--border)}
+    .exp-period{font-size:.75rem;letter-spacing:.1em;color:var(--gold);text-transform:uppercase;margin-bottom:6px}
+    .exp-company{font-size:.85rem;color:var(--muted)}
+    .exp-role{font-family:var(--disp);font-size:1.4rem;font-weight:700;color:var(--white);margin-bottom:16px}
+    .exp-bullets{list-style:none;display:flex;flex-direction:column;gap:10px}
+    .exp-bullets li{font-size:.95rem;color:#9a9690;padding-left:18px;position:relative}
+    .exp-bullets li::before{content:'—';position:absolute;left:0;color:var(--gold);font-size:.8rem}
+
+    /* CERTIFICATES */
+    .cert-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+    .cert-card{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:32px 28px;text-decoration:none;display:flex;flex-direction:column;gap:16px;transition:border-color .3s,transform .3s;position:relative;overflow:hidden}
+    .cert-card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform .3s}
+    .cert-card:hover{border-color:rgba(201,168,76,.4);transform:translateY(-4px)}
+    .cert-card:hover::after{transform:scaleX(1)}
+    .cert-icon{width:36px;height:36px;border:1px solid rgba(201,168,76,.3);border-radius:50%;display:flex;align-items:center;justify-content:center}
+    .cert-icon svg{width:16px;height:16px;fill:none;stroke:var(--gold);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+    .cert-name{font-family:var(--disp);font-size:1.05rem;font-weight:700;color:var(--white);line-height:1.35}
+    .cert-link{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-top:auto}
+
+    /* SKILLS */
+    .skills-bg{background:var(--bg2)}
+    .skills-wrapper{display:grid;grid-template-columns:repeat(3,1fr);gap:32px}
+    .skill-group{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:32px}
+    .skill-group-title{font-size:.7rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:28px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+    .skill-row{margin-bottom:20px}
+    .skill-header{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
+    .skill-name{font-size:.88rem;color:var(--white);font-weight:400}
+    .skill-pct{font-size:.72rem;color:var(--muted)}
+    .bar-track{height:3px;background:rgba(255,255,255,.07);border-radius:2px;overflow:hidden}
+    .bar-fill{height:100%;background:linear-gradient(90deg,var(--gold) 0%,var(--gold-lt) 100%);border-radius:2px;width:0;transition:width 1.2s cubic-bezier(.4,0,.2,1)}
+
+    /* PORTFOLIO */
+    .portfolio-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+    .port-card{position:relative;border-radius:6px;overflow:hidden;aspect-ratio:4/3;background:var(--bg3)}
+    .port-card img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease,filter .5s ease;filter:grayscale(30%) brightness(.8)}
+    .port-card:hover img{transform:scale(1.06);filter:grayscale(0%) brightness(.9)}
+    .port-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(10,10,10,.92) 0%,transparent 55%);display:flex;flex-direction:column;justify-content:flex-end;padding:24px;transition:background .3s}
+    .port-tag{font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+    .port-title{font-family:var(--disp);font-size:1.2rem;font-weight:700;color:var(--white);margin-bottom:4px}
+    .port-desc{font-size:.82rem;color:rgba(240,237,230,.55);max-height:0;overflow:hidden;transition:max-height .4s ease,opacity .3s;opacity:0}
+    .port-card:hover .port-desc{max-height:60px;opacity:1}
+    .port-card a{position:absolute;inset:0;z-index:2;text-decoration:none}
+
+    /* CONTACT */
+    .contact-bg{background:var(--bg2)}
+    .contact-grid{display:grid;grid-template-columns:1fr 1.4fr;gap:80px;align-items:start}
+    .contact-info-block{display:flex;flex-direction:column;gap:36px}
+    .contact-detail{border-top:1px solid var(--border);padding-top:24px}
+    .contact-detail-label{font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+    .contact-detail p{font-size:.95rem;color:#9a9690;line-height:1.6}
+    .contact-form{display:flex;flex-direction:column;gap:20px}
+    .form-field{display:flex;flex-direction:column;gap:8px}
+    .form-field label{font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+    .form-field input,.form-field textarea{background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:14px 16px;color:var(--white);font-family:var(--body);font-size:.95rem;outline:none;transition:border-color .25s;resize:none}
+    .form-field input:focus,.form-field textarea:focus{border-color:rgba(201,168,76,.5)}
+    .form-field input::placeholder,.form-field textarea::placeholder{color:#3a3a3a}
+    .form-submit{background:var(--gold);color:#0e0e0e;border:none;padding:15px 36px;font-family:var(--body);font-size:.8rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;border-radius:4px;cursor:pointer;align-self:flex-start;transition:background .25s,transform .2s}
+    .form-submit:hover{background:var(--gold-lt);transform:translateY(-2px)}
+
+    /* FOOTER */
+    footer{background:var(--bg);border-top:1px solid var(--border);padding:48px 60px;display:flex;align-items:center;justify-content:space-between}
+    .footer-brand{font-family:var(--disp);font-size:1rem;color:var(--gold);font-weight:700}
+    .footer-copy{font-size:.78rem;color:var(--muted)}
+    .footer-socials{display:flex;gap:16px}
+    .footer-socials a{width:32px;height:32px;border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:border-color .25s}
+    .footer-socials a:hover{border-color:var(--gold)}
+    .footer-socials img{width:14px;height:14px;filter:brightness(0) invert(.55)}
+
+    /* WHATSAPP */
+    .whatsapp-float{position:fixed;width:52px;height:52px;bottom:30px;right:30px;background:#25d366;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(37,211,102,.35);z-index:9999;transition:transform .25s}
+    .whatsapp-float:hover{transform:scale(1.1)}
+    .whatsapp-float img{width:26px;filter:brightness(0) invert(1)}
+
+    /* REVEAL */
+    .reveal{opacity:0;transform:translateY(32px);transition:opacity .7s ease,transform .7s ease}
+    .reveal.visible{opacity:1;transform:none}
+
+    /* RESPONSIVE */
+    @media(max-width:900px){
+      nav{padding:16px 24px}
+      .hero{padding:100px 24px 80px}
+      .hero-socials{left:24px}
+      .hero-scroll{right:24px}
+      .section{padding:72px 24px}
+      .about-grid,.contact-grid{grid-template-columns:1fr;gap:40px}
+      .cert-grid,.skills-wrapper,.portfolio-grid{grid-template-columns:repeat(2,1fr)}
+      .exp-item{grid-template-columns:1fr;gap:12px}
+      footer{flex-direction:column;gap:20px;text-align:center}
+    }
+    @media(max-width:540px){
+      .nav-links{display:none}
+      .cert-grid,.skills-wrapper,.portfolio-grid{grid-template-columns:1fr}
+      .info-grid{grid-template-columns:1fr}
+    }
+  </style>
 </head>
 <body>
 
+<div class="loading-overlay"><div class="loader-ring"></div></div>
 
-  <div class="loading-overlay">
-    <div class="loading-spinner"></div>
-</div>
-  <header class="hero">
-    <div class="container">
-        <div class="hero-content">
-            <h1 class="name">Mukelwa Hlatshwayo</h1>
-            <p class="title">Software Engineer | Backend Developer</p>
-        </div>
-        <div class="social-icons">
-            <a href="https://www.facebook.com/mukelwa.bogd" class="social-icon"><img src="images/facebook.png" alt="Facebook"></a>
-            <a href="https://github.com/" class="social-icon"><img src="images/github2.png" alt="github"></a>
-            <a href="https://www.linkedin.com/in/mukelwa-hlatshwayo-979847238/?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base%3BCC6W%2BmWYR2S8K4PCkNCKdQ%3D%3D" class="social-icon"><img src="images/linkedin2.png" alt="linkedin"></a>
-          </div>
-    </div>
-</header>
-
-
-<nav class="navbar">
-  <div class="container">
-
-    <ul>
-      <li><a href="index.html">Home</a></li>
-      <li><a href="#about">About</a></li>
-      <li><a href="#Certificates">Certificates</a></li>
-      <li><a href="#skills">Skills</a></li>
-      <li><a href="#portfolio">Portfolio</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-  </div>
+<nav id="navbar">
+  <a href="#" class="nav-logo">MH</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#certificates">Certificates</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#portfolio">Portfolio</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
 </nav>
 
-
-  <main class="main-content">
-   
-    <div class="container">
-      <section id="about" class="section"> 
-        <h2>About</h2>
-        <div class="about-container">
-          <div class="profile-picture">
-              <img src="images/profile-picture.jpg" alt="Profile Picture">
-          </div>
-          <div class="description-box">
-              <h2>About Me</h2>
-              <p>
-                Hello, I'm Mukelwa Hlatshwayo, and I'm thrilled to share that I've recently earned my BSc in Information Technology from the University of Johannesburg! Throughout my academic journey, I've developed a robust foundation in Information Technology and Computer Science.I've dedicated myself to the broader realm of software engineering. My final year was a culmination of actively honing my programming skills and expanding my knowledge, driven by a passion for technology. Beyond technical expertise, I've collaborated successfully with diverse teams on various projects, showcasing not only my programming skills but also effective communication and collaborative problem-solving. Now armed with my degree, I'm excited to explore new opportunities and make a meaningful impact in the world of technology. Whether it's delving deeper into software engineering, engaging in innovative projects, or discovering new facets of the tech industry, I'm eager to apply my skills and contribute to the ever-evolving field. Looking forward to the next chapter and all the exciting possibilities it holds!</p>
-          </div>
-      </div>
-      
-        <div class="col-six tab-full">
-          <h3>Profile</h3>
-          <p>Here is the biography.</p>
-          <ul class="info-list">
-            <li>
-              <strong>Fullname:</strong>
-              <span>Mukelwa </span>
-            </li>
-            <li>
-              <strong>Surname:</strong>
-              <span>Hlatshwayo</span>
-            </li>
-            <li>
-              <strong>Website:</strong>
-              <span>daniel01001.github.io</span>
-            </li>
-            <li>
-              <strong>Email:</strong>
-              <span>hlatshwayomukelwa@gmail.com</span>
-            </li>
-            <li>
-              <strong>Phone Number:</strong>
-              <span>0839580908</span>
-            </li>
-          </ul>
-        </div>
-      </section>
-      <hr class="section-divider">
-     <section id="experience" class="section">
-        <h2>Experience</h2>
-         <div class="skill-item">
-        <div class="experience-container">
-          <div class="experience-item">
-            <h3>Junior Software Engineer</h3>
-            <p>Digiata Technology Services</p>
-            <p>January 2024 to Present</p>
-            <ul>
-              <li>Contributed to the development of a web application using React.js.</li>
-              <li>Collaborated with cross-functional teams to implement new features.</li>
-              <li>Participated in code reviews and provided feedback to team members.</li>
-            </ul>
-          </div>
-        </div>
-        </div>
-      </section>
-
-       <section id="Certificates" class="section">
-        <h2>Certificates</h2>
-        <div class="skills-container">
-          <div class="skill-item">
-            <h3>Certification</h3>
-            <ul class="skill-list">
-              <li>
-                <a href="https://www.udemy.com/certificate/UC-5aa8789b-5b33-40f4-92ad-5173191c3232">
-                <strong>SQL Server Database Fundamentals</strong></a>
-              </li>
-              <li>
-                <a href="https://credentials.cfainstitute.org/ef27d1f0-e955-4806-882a-15f334fe8849">
-                <strong>Investment Foundations® Certificate</strong></a>
-              </li>
-              <li>
-                <a href="https://dcveri.uj.ac.za/?reference=03030608-01-R6AA">
-                <strong>BSc in computer science and informatics Degree</strong></a>
-              </li>
-             
-            </ul>
-          </div>
-      </section>
-
-      <section id="skills" class="section">
-        <h2>Skills</h2>
-        <div class="skills-container">
-          <div class="skill-item">
-            <h3>Skills</h3>
-            <ul class="skill-list">
-              <li>
-                <strong>Critical Thinking</strong>
-                <div class="progress">
-                  <div class="progress-fill" style="width: 100%;"></div>
-                </div>
-              </li>
-              
-              <li>
-                <strong>Teamwork and Collaboration</strong>
-                <div class="progress">
-                  <div class="progress-fill" style="width: 100%;"></div>
-                </div>
-              </li>
-              <li>
-                <strong>Problem-Solving</strong>
-                <div class="progress">
-                  <div class="progress-fill" style="width: 95%;"></div>
-                </div>
-              </li>
-              <li>
-                <strong>Excellent Communication</strong>
-                <div class="progress">
-                  <div class="progress-fill" style="width: 95%;"></div>
-                </div>
-              </li>
-              <li>
-                <strong>Java Proficiency</strong>
-                <div class="progress">
-                  <div class="progress-fill" style="width: 75%;"></div>
-                </div>
-              </li>
-              <li>
-                <strong>C++ Proficiency</strong>
-                <div class="progress">
-                  <div class="progress-fill" style="width: 70%;"></div>
-                </div>
-              </li>
-              <li>
-                <strong>Software Proficiency</strong>
-                <div class="progress">
-                  <div class="progress-fill" style="width: 95%;"></div>
-                </div>
-              </li>
-              <li>
-                <strong>SQL Software Proficiency</strong>
-                <div class="progress">
-                  <div class="progress-fill" style="width: 90%;"></div>
-                </div>
-              </li>
-              <li>
-                <strong>C# Proficiency</strong>
-                <div class="progress">
-                  <div class="progress-fill" style="width: 85%;"></div>
-                </div>
-              </li>
-            </ul>
-          </div>
-
-          <div class="skill-item">
-            <h3>Frameworks</h3>
-            <ul class="skill-list">
-              <li>
-                <strong>ASP.NET core web API</strong>
-                <div class="progress">
-                  <div class="progress-fill" style="width: 80%;"></div>
-                </div>
-              </li>
-              <li>
-                <strong>ASP.NET web Application</strong>
-                <div class="progress">
-                  <div class="progress-fill" style="width: 75%;"></div>
-                </div>
-              </li>
-              <li>
-                <strong>.NET MAUI</strong>
-                <div class="progress">
-                  <div class="progress-fill" style="width: 90%;"></div>
-                </div>
-              </li>
-              <li>
-                <strong>WCF SERVICE</strong>
-                <div class="progress">
-                  <div class="progress-fill" style="width: 70%;"></div>
-                </div>
-              </li>
-              <li>
-                <strong>ASP.NET core web app (MVC)</strong>
-                <div class="progress">
-                  <div class="progress-fill" style="width: 85%;"></div>
-                </div>
-              </li>
-            </ul>
-          </div>
-
-          <div class="skill-item">
-            <h3>Version Control</h3>
-            <ul class="skill-list">
-              <li>
-                <strong>Git hub</strong>
-                <div class="progress">
-                  <div class="progress-fill" style="width: 90%;"></div>
-                </div>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </section>
-      <hr class="section-divider">
-
-      <section id="portfolio" class="section">
-        <h2>Portfolio</h2>
-        <div class="portfolio-container">
-          <div class="portfolio-item">
-            <a href="portfolio/web1/index.html"> 
-              <img src="images/project1.jpg" alt="Project 1">
-              <h3>PRESTIGE ELECTRIC</h3></a>
-              <p>Promoting a healthy and safe electrical environment and improving efficiency is our priority!!</p>     
-          </div>
-          <div class="portfolio-item">
-            <a href="https://youtu.be/xNx5K4g10NE"> 
-            <img src="images/project2.png" alt="Project 2">
-            <h3>OE STORE</h3></a>
-            <p>Gorgeous girls wear oe store.</p>
-          </div>
-          <div class="portfolio-item">    
-            <a href="portfolio/web2/index.html"> 
-              <img src="images/project3.png" alt="Project 1">
-              <h3>Mukelwa Hlatshwayo</h3></a>
-              <p>Always looking ahead</p>
-            
-          </div>
-          <div class="portfolio-item">
-            <a href="https://adam.uj.ac.za/projectsday/?page=projects&type=teams&no=3">
-              <img src="images/project4.png" alt="Project 4">
-            <h3>S.A.G.S</h3></a>
-            <p>School Attendance and grading system</p>
-        </div>
-          <div class="portfolio-item">
-            <a href="https://youtu.be/JcnTLTNdP0U"> 
-            <img src="images/project5.png" alt="Project 5">
-            <h3>STUDY BUBBY</h3></a>
-            <p>Tutoring site</p>
-          </div>
-
-          <div class="portfolio-item">
-              <img src="images/project6.png" alt="Project 6"></a>
-              <h3>Garden Rose</h3>
-              <p>Booking system</p>
-          </div>
-          
-        </div>
-      </section>
-      
-    <hr class="section-divider">
-      <section id="contact" class="section">
-        <div class="container">
-          <h2>Contact Me</h2>
-          <p style="margin-left: 15px;">Feel free to get in touch with me.</p>
-          <div class="contact-form">
-              <form action="https://formsubmit.co/2a96d1ea91df66346257b92b56ebc953" method="POST">
-              <div class="form-group">
-                <label for="name">Name</label>
-                <input type="text" id="name" name="name" required>
-              </div>
-              <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" required>
-              </div>
-              <div class="form-group">
-                <label for="message">Message</label>
-                <textarea id="message" name="message" rows="4" required></textarea>
-              </div>
-              <button type="submit">Send Message</button>
-            </form>
-          </div>
-        </div>
-      </section>
-      
+<header class="hero" id="home">
+  <div class="hero-inner">
+    <span class="hero-eyebrow">Software Engineer · Backend Developer</span>
+    <h1 class="hero-name">Mukelwa<br><em>Hlatshwayo</em></h1>
+    <p class="hero-subtitle">Building robust systems from Johannesburg, SA</p>
+    <div class="hero-cta">
+      <a href="#portfolio" class="btn-primary">View Work</a>
+      <a href="#contact" class="btn-ghost">Get in Touch</a>
     </div>
-  </main>
-  <hr class="section-divider">
-  <footer class="footer">
-    <div class="footer-content">
-      <div class="footer-section contact-info">
-        <div class="icon">
-          <img src="images/location.png" alt="Location Icon">
-        </div>
-        <h5>Where to find me</h5>
-        <p>
-          8 Moorgate Road<br>
-          Johannesburg, SA<br>
-          Gauteng 2096
-        </p>
-      </div>
-    
-      <div class="footer-section contact-info">
-        <div class="icon">
-          <img src="images/Email_icon.png" alt="Email Icon">
-        </div>
-        <h5>Email Me At</h5>
-        <p>hlatshwayomukelwa@gmail.com</p>
-      </div>
-    
-      <div class="footer-section contact-info">
-        <div class="icon">
-          <img src="images/Phone_icon.png" alt="Phone Icon">
-        </div>
-        <h5>Call Me At</h5>
-        <p>Mobile: 0839580908</p>
+  </div>
+  <div class="hero-socials">
+    <a href="https://www.facebook.com/mukelwa.bogd" target="_blank"><img src="images/facebook.png" alt="Facebook"></a>
+    <a href="https://github.com/" target="_blank"><img src="images/github2.png" alt="GitHub"></a>
+    <a href="https://www.linkedin.com/in/mukelwa-hlatshwayo-979847238/" target="_blank"><img src="images/linkedin2.png" alt="LinkedIn"></a>
+  </div>
+  <div class="hero-scroll"><div class="scroll-line"></div>Scroll</div>
+</header>
+
+<section class="section" id="about">
+  <div class="section-label reveal">01 — About</div>
+  <h2 class="section-title reveal">The person<br>behind the code.</h2>
+  <div class="about-grid">
+    <div class="about-photo-wrap reveal">
+      <img src="images/profile-picture.jpg" alt="Mukelwa Hlatshwayo">
+    </div>
+    <div class="about-text">
+      <p class="reveal">I'm Mukelwa Hlatshwayo — a software engineer with a BSc in Information Technology from the University of Johannesburg, passionate about building clean, efficient backend systems and robust software architectures.</p>
+      <p class="reveal">My academic journey gave me a strong foundation across computer science and software engineering. I've since channelled that into real-world experience, collaborating with cross-functional teams and contributing to production-grade applications.</p>
+      <p class="reveal">Whether it's diving deep into .NET ecosystems, designing APIs, or exploring new corners of the tech landscape — I approach every challenge with precision and a hunger to keep growing.</p>
+      <div class="info-grid reveal">
+        <div class="info-row"><strong>Full Name</strong><span>Mukelwa Hlatshwayo</span></div>
+        <div class="info-row"><strong>Location</strong><span>Johannesburg, SA</span></div>
+        <div class="info-row"><strong>Email</strong><span>hlatshwayomukelwa@gmail.com</span></div>
+        <div class="info-row"><strong>Phone</strong><span>083 958 0908</span></div>
       </div>
     </div>
-    
-  
-    <div class="footer-social">
-      <a href="https://www.facebook.com/mukelwa.bogd" class="social-icon"><img src="images/facebook.png" alt="Facebook"></a>
-      <a href="https://github.com/" class="social-icon"><img src="images/github2.png" alt="github"></a>
-      <a href="https://www.linkedin.com/in/mukelwa-hlatshwayo-979847238/?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base%3BCC6W%2BmWYR2S8K4PCkNCKdQ%3D%3D" class="social-icon"><img src="images/linkedin2.png" alt="linkedin"></a>
-      <a href=" https://www.youtube.com/channel/UCL22GoieG5mU93QRI3GPupQ/" class="social-icon"><img src="images/youtube.png" alt="youtube"></a>
+  </div>
+</section>
+
+<hr class="divider">
+
+<div class="exp-bg">
+  <section class="section" id="experience">
+    <div class="section-label reveal">02 — Experience</div>
+    <h2 class="section-title reveal">Where I've<br>made an impact.</h2>
+    <div class="exp-item reveal">
+      <div class="exp-meta">
+        <div class="exp-period">Jan 2024 — Present</div>
+        <div class="exp-company">Digiata Technology Services</div>
+      </div>
+      <div>
+        <div class="exp-role">Junior Software Engineer</div>
+        <ul class="exp-bullets">
+          <li>Contributed to the development of a production web application using React.js.</li>
+          <li>Collaborated with cross-functional teams to design and implement new features end-to-end.</li>
+          <li>Participated actively in code reviews, elevating team code quality and standards.</li>
+        </ul>
+      </div>
     </div>
-  
-    <p class="footer-copyright">&copy; 2025 Mukelwa Hlatshwayo. All rights reserved.</p>
-  </footer>
-  
-  
-  <script src="js/contact.js"></script>
-  <script src="js/gsap.min.js"></script>
-  <script src="js/scripts.js"></script>
-  <a href="https://wa.me/27839580908" 
-   class="whatsapp-float" 
-   target="_blank">
-    <img src="images/whatsapp-black.png" alt="WhatsApp">
+  </section>
+</div>
+
+<hr class="divider">
+
+<section class="section" id="certificates">
+  <div class="section-label reveal">03 — Credentials</div>
+  <h2 class="section-title reveal">Certified &amp;<br>qualified.</h2>
+  <div class="cert-grid">
+    <a href="https://www.udemy.com/certificate/UC-5aa8789b-5b33-40f4-92ad-5173191c3232" target="_blank" class="cert-card reveal">
+      <div class="cert-icon"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+      <div class="cert-name">SQL Server Database Fundamentals</div>
+      <div class="cert-link">View Certificate ↗</div>
+    </a>
+    <a href="https://credentials.cfainstitute.org/ef27d1f0-e955-4806-882a-15f334fe8849" target="_blank" class="cert-card reveal">
+      <div class="cert-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+      <div class="cert-name">Investment Foundations® Certificate — CFA Institute</div>
+      <div class="cert-link">View Certificate ↗</div>
+    </a>
+    <a href="https://dcveri.uj.ac.za/?reference=03030608-01-R6AA" target="_blank" class="cert-card reveal">
+      <div class="cert-icon"><svg viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5-10-5zM6 12v5c3 3 9 3 12 0v-5"/></svg></div>
+      <div class="cert-name">BSc Computer Science &amp; Informatics — University of Johannesburg</div>
+      <div class="cert-link">Verify Degree ↗</div>
+    </a>
+  </div>
+</section>
+
+<hr class="divider">
+
+<div class="skills-bg">
+  <section class="section" id="skills">
+    <div class="section-label reveal">04 — Skills</div>
+    <h2 class="section-title reveal">Tools &amp;<br>proficiencies.</h2>
+    <div class="skills-wrapper">
+      <div class="skill-group reveal">
+        <div class="skill-group-title">Core Skills</div>
+        <div class="skill-row"><div class="skill-header"><span class="skill-name">Critical Thinking</span><span class="skill-pct">100%</span></div><div class="bar-track"><div class="bar-fill" data-w="100"></div></div></div>
+        <div class="skill-row"><div class="skill-header"><span class="skill-name">Problem-Solving</span><span class="skill-pct">95%</span></div><div class="bar-track"><div class="bar-fill" data-w="95"></div></div></div>
+        <div class="skill-row"><div class="skill-header"><span class="skill-name">Teamwork</span><span class="skill-pct">100%</span></div><div class="bar-track"><div class="bar-fill" data-w="100"></div></div></div>
+        <div class="skill-row"><div class="skill-header"><span class="skill-name">Communication</span><span class="skill-pct">95%</span></div><div class="bar-track"><div class="bar-fill" data-w="95"></div></div></div>
+      </div>
+      <div class="skill-group reveal">
+        <div class="skill-group-title">Languages</div>
+        <div class="skill-row"><div class="skill-header"><span class="skill-name">C# / .NET</span><span class="skill-pct">85%</span></div><div class="bar-track"><div class="bar-fill" data-w="85"></div></div></div>
+        <div class="skill-row"><div class="skill-header"><span class="skill-name">Java</span><span class="skill-pct">75%</span></div><div class="bar-track"><div class="bar-fill" data-w="75"></div></div></div>
+        <div class="skill-row"><div class="skill-header"><span class="skill-name">SQL</span><span class="skill-pct">90%</span></div><div class="bar-track"><div class="bar-fill" data-w="90"></div></div></div>
+        <div class="skill-row"><div class="skill-header"><span class="skill-name">C++</span><span class="skill-pct">70%</span></div><div class="bar-track"><div class="bar-fill" data-w="70"></div></div></div>
+      </div>
+      <div class="skill-group reveal">
+        <div class="skill-group-title">Frameworks &amp; Tools</div>
+        <div class="skill-row"><div class="skill-header"><span class="skill-name">ASP.NET Core Web API</span><span class="skill-pct">80%</span></div><div class="bar-track"><div class="bar-fill" data-w="80"></div></div></div>
+        <div class="skill-row"><div class="skill-header"><span class="skill-name">.NET MAUI</span><span class="skill-pct">90%</span></div><div class="bar-track"><div class="bar-fill" data-w="90"></div></div></div>
+        <div class="skill-row"><div class="skill-header"><span class="skill-name">ASP.NET MVC</span><span class="skill-pct">85%</span></div><div class="bar-track"><div class="bar-fill" data-w="85"></div></div></div>
+        <div class="skill-row"><div class="skill-header"><span class="skill-name">Git / GitHub</span><span class="skill-pct">90%</span></div><div class="bar-track"><div class="bar-fill" data-w="90"></div></div></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<hr class="divider">
+
+<section class="section" id="portfolio">
+  <div class="section-label reveal">05 — Work</div>
+  <h2 class="section-title reveal">Selected<br>projects.</h2>
+  <div class="portfolio-grid">
+    <div class="port-card reveal">
+      <img src="images/project1.jpg" alt="Prestige Electric">
+      <div class="port-overlay"><div class="port-tag">Web Application</div><div class="port-title">Prestige Electric</div><div class="port-desc">Promoting a healthy, safe electrical environment and improving efficiency.</div></div>
+      <a href="portfolio/web1/index.html"></a>
+    </div>
+    <div class="port-card reveal">
+      <img src="images/project2.png" alt="OE Store">
+      <div class="port-overlay"><div class="port-tag">E-Commerce</div><div class="port-title">OE Store</div><div class="port-desc">Gorgeous girls wear — a modern e-commerce storefront.</div></div>
+      <a href="https://youtu.be/xNx5K4g10NE" target="_blank"></a>
+    </div>
+    <div class="port-card reveal">
+      <img src="images/project3.png" alt="Personal Portfolio">
+      <div class="port-overlay"><div class="port-tag">Portfolio</div><div class="port-title">Mukelwa Hlatshwayo</div><div class="port-desc">Always looking ahead — personal portfolio project.</div></div>
+      <a href="portfolio/web2/index.html"></a>
+    </div>
+    <div class="port-card reveal">
+      <img src="images/project4.png" alt="SAGS">
+      <div class="port-overlay"><div class="port-tag">EdTech</div><div class="port-title">S.A.G.S</div><div class="port-desc">School Attendance and Grading System — final year capstone.</div></div>
+      <a href="https://adam.uj.ac.za/projectsday/?page=projects&type=teams&no=3" target="_blank"></a>
+    </div>
+    <div class="port-card reveal">
+      <img src="images/project5.png" alt="Study Buddy">
+      <div class="port-overlay"><div class="port-tag">EdTech</div><div class="port-title">Study Buddy</div><div class="port-desc">A peer tutoring platform connecting students with tutors.</div></div>
+      <a href="https://youtu.be/JcnTLTNdP0U" target="_blank"></a>
+    </div>
+    <div class="port-card reveal">
+      <img src="images/project6.png" alt="Garden Rose">
+      <div class="port-overlay"><div class="port-tag">Booking System</div><div class="port-title">Garden Rose</div><div class="port-desc">Full-featured reservation and booking management system.</div></div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<div class="contact-bg">
+  <section class="section" id="contact">
+    <div class="section-label reveal">06 — Contact</div>
+    <h2 class="section-title reveal">Let's work<br>together.</h2>
+    <div class="contact-grid">
+      <div class="contact-info-block">
+        <div class="contact-detail reveal">
+          <div class="contact-detail-label">Location</div>
+          <p>8 Moorgate Road<br>Johannesburg, Gauteng 2096<br>South Africa</p>
+        </div>
+        <div class="contact-detail reveal">
+          <div class="contact-detail-label">Email</div>
+          <p>hlatshwayomukelwa@gmail.com</p>
+        </div>
+        <div class="contact-detail reveal">
+          <div class="contact-detail-label">Mobile</div>
+          <p>083 958 0908</p>
+        </div>
+        <div class="contact-detail reveal">
+          <div class="contact-detail-label">Socials</div>
+          <p>
+            <a href="https://github.com/" style="color:var(--gold);text-decoration:none;">GitHub</a> &nbsp;·&nbsp;
+            <a href="https://www.linkedin.com/in/mukelwa-hlatshwayo-979847238/" style="color:var(--gold);text-decoration:none;">LinkedIn</a> &nbsp;·&nbsp;
+            <a href="https://www.youtube.com/channel/UCL22GoieG5mU93QRI3GPupQ/" style="color:var(--gold);text-decoration:none;">YouTube</a>
+          </p>
+        </div>
+      </div>
+      <form class="contact-form reveal" action="https://formsubmit.co/2a96d1ea91df66346257b92b56ebc953" method="POST">
+        <div class="form-field"><label for="name">Name</label><input type="text" id="name" name="name" placeholder="Your full name" required></div>
+        <div class="form-field"><label for="email">Email</label><input type="email" id="email" name="email" placeholder="your@email.com" required></div>
+        <div class="form-field"><label for="message">Message</label><textarea id="message" name="message" rows="5" placeholder="Tell me about your project..."></textarea></div>
+        <button type="submit" class="form-submit">Send Message</button>
+      </form>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <div class="footer-brand">Mukelwa Hlatshwayo</div>
+  <p class="footer-copy">© 2025 All rights reserved.</p>
+  <div class="footer-socials">
+    <a href="https://www.facebook.com/mukelwa.bogd" target="_blank"><img src="images/facebook.png" alt="Facebook"></a>
+    <a href="https://github.com/" target="_blank"><img src="images/github2.png" alt="GitHub"></a>
+    <a href="https://www.linkedin.com/in/mukelwa-hlatshwayo-979847238/" target="_blank"><img src="images/linkedin2.png" alt="LinkedIn"></a>
+    <a href="https://www.youtube.com/channel/UCL22GoieG5mU93QRI3GPupQ/" target="_blank"><img src="images/youtube.png" alt="YouTube"></a>
+  </div>
+</footer>
+
+<a href="https://wa.me/27839580908" class="whatsapp-float" target="_blank">
+  <img src="images/whatsapp-black.png" alt="WhatsApp">
 </a>
 
-</body>  
 <script>
-    window.onload = function() {
-        document.querySelector('.loading-overlay').classList.add('hide-loading');
-    };
+  window.addEventListener('load',()=>{document.querySelector('.loading-overlay').classList.add('hide-loading')});
+  const nav=document.getElementById('navbar');
+  window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scrollY>60)});
+  const revealEls=document.querySelectorAll('.reveal');
+  const observer=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        const siblings=[...e.target.parentElement.querySelectorAll('.reveal')];
+        const idx=siblings.indexOf(e.target);
+        e.target.style.transitionDelay=`${idx*0.08}s`;
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  },{threshold:0.12});
+  revealEls.forEach(el=>observer.observe(el));
+  const barObserver=new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        entry.target.querySelectorAll('.bar-fill').forEach(bar=>{bar.style.width=bar.dataset.w+'%'});
+        barObserver.unobserve(entry.target);
+      }
+    });
+  },{threshold:0.3});
+  document.querySelectorAll('.skill-group').forEach(g=>barObserver.observe(g));
 </script>
+</body>
 </html>
